@@ -1,3 +1,10 @@
+#2048 AI
+Here I modified the original code and 2048 is now ready for you to implement your AI algorithm.
+If you have reached 2048 or higher, enabling your machine to do this is the new challenge.
+Add your code to ai.js, press "?" key to launch. Have fun.
+
+Thanks for the original authors, their readme is as following:
+
 # 2048
 A small clone of [1024](https://play.google.com/store/apps/details?id=com.veewo.a1024), based on [Saming's 2048](http://saming.fr/p/2048/) (also a clone).
 
