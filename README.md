@@ -1,3 +1,12 @@
+#2048 AI Interface
+
+This code is modified to provide developers an interface to implement your own AI algorithms.
+You can access the current grid layout and set the next move by working on js/ai.js.
+
+Currently, a randomlized AI is provided as a sample.
+
+Here is the README from the original author:
+
 # 2048
 A small clone of [1024](https://play.google.com/store/apps/details?id=com.veewo.a1024), based on [Saming's 2048](http://saming.fr/p/2048/) (also a clone).
 
