@@ -46,7 +46,7 @@ KeyboardInputManager.prototype.listen = function () {
     87: 0, // W
     68: 1, // D
     83: 2, // S
-    65: 3  // A
+    65: 3, // A
   };
 
   // Respond to direction keys
@@ -65,6 +65,11 @@ KeyboardInputManager.prototype.listen = function () {
     // R key restarts the game
     if (!modifiers && event.which === 82) {
       self.restart.call(self, event);
+    }
+
+    // start or stop auto playing mode
+    if (!modifiers && event.which === 191) {
+      self.autoPressed.call(self, event);
     }
   });
 
@@ -124,6 +129,9 @@ KeyboardInputManager.prototype.listen = function () {
       // (right : left) : (down : up)
       self.emit("move", absDx > absDy ? (dx > 0 ? 1 : 3) : (dy > 0 ? 2 : 0));
     }
+    else if (Math.max(absDx, absDy) < 3){
+      self.emit("autoPressed");
+    }
   });
 };
 
@@ -135,6 +143,11 @@ KeyboardInputManager.prototype.restart = function (event) {
 KeyboardInputManager.prototype.keepPlaying = function (event) {
   event.preventDefault();
   this.emit("keepPlaying");
+};
+
+KeyboardInputManager.prototype.autoPressed = function (event) {
+  event.preventDefault();
+  this.emit("autoPressed");
 };
 
 KeyboardInputManager.prototype.bindButtonPress = function (selector, fn) {

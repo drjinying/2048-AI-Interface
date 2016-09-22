@@ -3,13 +3,14 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
   this.inputManager   = new InputManager;
   this.storageManager = new StorageManager;
   this.actuator       = new Actuator;
-
   this.startTiles     = 2;
-
+  this.stepTmr;
+  this.isAuto         = false;
+  this.AI             = new AI(this.grid);
   this.inputManager.on("move", this.move.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
   this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
-
+  this.inputManager.on("autoPressed", this.autoPressed.bind(this));
   this.setup();
 }
 
@@ -46,10 +47,15 @@ GameManager.prototype.setup = function () {
   } else {
     this.grid        = new Grid(this.size);
     this.score       = 0;
+    this.cntAuto     = 0;
     this.over        = false;
     this.won         = false;
     this.keepPlaying = false;
 
+    if (this.isAuto == true) {
+      this.isAuto      = false;
+      clearInterval(this.stepTmr);
+    }
     // Add the initial tiles
     this.addStartTiles();
   }
@@ -262,11 +268,26 @@ GameManager.prototype.tileMatchesAvailable = function () {
         }
       }
     }
-  }
-
+  }///
   return false;
 };
 
 GameManager.prototype.positionsEqual = function (first, second) {
   return first.x === second.x && first.y === second.y;
+};
+
+GameManager.prototype.autoPressed = function () {
+  this.isAuto = !this.isAuto;
+  if(this.isAuto == true){
+    //
+    var t = this;
+    this.stepTmr = self.setInterval(function(){t.autoSteps();}, 200);
+  }
+  else{
+    clearInterval(this.stepTmr);
+  }
+};
+
+GameManager.prototype.autoSteps = function () {
+  this.move(this.AI.nextMove());
 };
